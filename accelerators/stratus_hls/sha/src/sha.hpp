@@ -50,6 +50,16 @@ public:
     // Store the output data
     void store_output();
 
+    void do_sha(uint32_t input_size,uint32_t input_v_size,
+                unsigned char *indata, 
+                uint32_t *sha_info_digest, uint32_t *in_ct,
+                uint32_t* result_sha_info_digest) ;
+
+    uint32_t* sha_update(unsigned char *buffer, int count, 
+                        uint32_t* bit_count,uint32_t* sha_info_data);
+    uint32_t* sha_transform(uint32_t* sha_info_data, uint32_t*sha_info_digest);
+    uint32_t* sha_final(uint32_t* sha_info_data,uint32_t* sha_info_digest,
+                        uint32_t sha_info_count_lo, uint32_t sha_info_count_hi);
     // Configure sha
     esp_config_proc cfg;
 
@@ -61,6 +71,12 @@ public:
     sc_dt::sc_int<DATA_WIDTH> plm_out_ping[PLM_OUT_WORD];
     sc_dt::sc_int<DATA_WIDTH> plm_out_pong[PLM_OUT_WORD];
 
+    unsigned char indata[PLM_IN_WORD] ;
+    uint32_t sha_info_digest[5] ;
+    uint32_t in_ct[2] ;
+
+    uint32_t in_length ;
+    uint32_t result_sha_info_digest[5];
 };
 
 

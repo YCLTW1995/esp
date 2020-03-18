@@ -83,7 +83,7 @@ public:
     uint32_t out_size;
     int32_t *in;
     int32_t *out;
-    int32_t *gold;
+    uint32_t *gold;
 
     // Other Functions
     int32_t* initialize_input(int32_t * buffer, int in_size) ;

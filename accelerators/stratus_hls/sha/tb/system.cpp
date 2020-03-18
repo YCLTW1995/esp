@@ -101,12 +101,12 @@ void system_t::load_memory()
     in = new int32_t[in_size] ;
     in = initialize_input(in, in_size) ;
     // Compute golden output
-    gold = new int32_t[out_size];
-    gold[0] = 75;
-    gold[1] = 117;
-    gold[2] = 114;
-    gold[3] = 116;
-    gold[4] =  86;
+    gold = new uint32_t[out_size];
+    gold[0] = 6969911;
+    gold[1] = 2480706693;
+    gold[2] = 742465810;
+    gold[3] = 1677179459;
+    gold[4] =  2910058786;
 
 
 
@@ -162,7 +162,7 @@ int system_t::validate()
 
     for (int i = 0; i < 1; i++)
         for (int j = 0; j < 5; j++){
-            printf("gold out is %d, out is %d \n", gold[i * out_words_adj + j], out[i * out_words_adj + j]) ;
+            printf("gold out is %u, out is %u \n", gold[i * out_words_adj + j], (uint32_t)(out[i * out_words_adj + j])) ;
             if (gold[i * out_words_adj + j] != out[i * out_words_adj + j])
                 errors++;
         }

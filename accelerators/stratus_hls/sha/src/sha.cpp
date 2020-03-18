@@ -272,8 +272,8 @@ void sha::compute_kernel()
 
     // Config
     /* <<--params-->> */
-    int32_t input_size;
-    int32_t input_v_size;
+    uint32_t input_size;
+    uint32_t input_v_size;
     {
         HLS_PROTO("compute-config");
 
@@ -284,6 +284,17 @@ void sha::compute_kernel()
         /* <<--local-params-->> */
         input_size = config.input_size;
         input_v_size = config.input_v_size;
+        in_length = input_v_size * input_size;
+        // set sha info digest data 
+        sha_info_digest[0] = 0x67452301L;
+		sha_info_digest[1] = 0xefcdab89L;
+		sha_info_digest[2] = 0x98badcfeL;
+		sha_info_digest[3] = 0x10325476L;
+		sha_info_digest[4] = 0xc3d2e1f0L;
+		in_ct[0] = 8192 ;
+		in_ct[1] = 8192 ;
+        //uint32_t* result_sha_info_digest = new uint32_t[5] ;
+		
     }
 
 
@@ -293,7 +304,7 @@ void sha::compute_kernel()
     {
         for (uint16_t b = 0; b < 1; b++)
         {
-            uint32_t in_length = input_v_size * input_size;
+            
             uint32_t out_length = 5;
             int out_rem = out_length;
 
@@ -306,12 +317,24 @@ void sha::compute_kernel()
                 this->compute_load_handshake();
 
                 // Computing phase implementation
-                /****/
+                // set input value 
+                for(int i = 0 ; i < in_len ; i ++ ){
+                	if (ping)
+                        indata[i] = (unsigned char)plm_in_ping[i];
+                    else
+                        indata[i] = (unsigned char)plm_in_pong[i]; 
+                }
+
+                do_sha(input_size, input_v_size,
+                	indata,sha_info_digest,in_ct,result_sha_info_digest);
+                
+
+                /****Original */
                 for (int i = 0; i < out_length; i++) { 
                     if (ping)
-                        plm_out_ping[i] = plm_in_ping[i];
+                        plm_out_ping[i] = result_sha_info_digest[i];
                     else
-                        plm_out_pong[i] = plm_in_pong[i];
+                        plm_out_pong[i] = result_sha_info_digest[i];
                 }
                 /*****/ 
                 out_rem -= PLM_OUT_WORD;
