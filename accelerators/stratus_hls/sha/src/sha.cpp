@@ -7,7 +7,6 @@
 // Functions
 
 #include "sha_functions.hpp"
-
 // Processes
 
 void sha::load_input()
@@ -294,7 +293,13 @@ void sha::compute_kernel()
 		in_ct[0] = 8192 ;
 		in_ct[1] = 8192 ;
         //uint32_t* result_sha_info_digest = new uint32_t[5] ;
-		
+		///test
+        /*
+        input_size = 1024 ;
+        input_v_size = 2 ;
+        in_ct[0] = 1024 ;
+        in_ct[1] = 1024;
+        */
     }
 
 
@@ -318,14 +323,48 @@ void sha::compute_kernel()
 
                 // Computing phase implementation
                 // set input value 
+                uint32_t tmp_total_size = 0 ;
                 for(int i = 0 ; i < in_len ; i ++ ){
-                	if (ping)
-                        indata[i] = (unsigned char)plm_in_ping[i];
-                    else
-                        indata[i] = (unsigned char)plm_in_pong[i]; 
+                	if (ping){
+                        if(i != 16383)
+                            indata[i] = (unsigned char)plm_in_ping[i];
+                        else{
+                            tmp_total_size = (uint32_t)plm_in_ping[i] ;
+                        }
+                    }
+                    else{
+                        if(i!=16383){
+                            indata[i] = (unsigned char)plm_in_pong[i]; 
+                        }
+                        else{
+                            tmp_total_size = (uint32_t)plm_in_ping[i] ;
+                        }
+                    }
                 }
-
-                do_sha(input_size, input_v_size,
+                // do data preprocess
+                //uint32_t tmp_total_size = indata[16383] ;
+                indata[16383] = 0 ;
+                
+                if (tmp_total_size % 2 != 0) tmp_total_size +=1 ;
+                uint32_t tmpvalue = 1;
+                while(tmpvalue < tmp_total_size){
+                    tmpvalue = tmpvalue *2 ;
+                }
+                if (tmpvalue >= 16384) tmpvalue = 16384 ;
+                uint32_t updated_input_size = tmpvalue/2 ;
+                uint32_t updated_input_v_size = 2 ;
+                in_ct[0] = updated_input_size ;
+                in_ct[1] = updated_input_size ;
+                
+                /*
+                uint32_t updated_input_size = 1024 ;
+                uint32_t updated_input_v_size = 2 ;
+                in_ct[0] = updated_input_size ;
+                in_ct[1] = updated_input_size ;
+                */
+                // data preprocess done 
+                printf("\nSRC Total Input Size is %d\n",updated_input_size*2);
+                do_sha(updated_input_size, updated_input_v_size,
                 	indata,sha_info_digest,in_ct,result_sha_info_digest);
                 
 

@@ -87,6 +87,7 @@ public:
 
     // Other Functions
     int32_t* initialize_input(int32_t * buffer, int in_size) ;
+    int32_t* read_txt() ;
 };
 
 #endif // __SYSTEM_HPP__

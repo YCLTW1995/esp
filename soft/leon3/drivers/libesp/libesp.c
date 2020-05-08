@@ -167,7 +167,7 @@ void esp_run(esp_thread_info_t cfg[], unsigned nacc)
 		}
 
 		sprintf(path, "%s%s", prefix, info->devname);
-
+		printf("IN LIBESP.C PATH = %s%s\n",path,info->devname);
 		info->fd = open(path, O_RDWR, 0);
 		if (info->fd < 0) {
 			contig_free(contig);

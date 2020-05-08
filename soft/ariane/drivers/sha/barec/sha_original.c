@@ -5,17 +5,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #endif
+
 #include <esp_accelerator.h>
 #include <esp_probe.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 typedef int32_t token_t;
 
 static unsigned DMA_WORD_PER_BEAT(unsigned _st)
 {
         return (sizeof(void *) / _st);
 }
-
 
 
 #define SLD_SHA 0x18A
@@ -54,11 +53,9 @@ static int validate_buf(token_t *out, token_t *gold)
 	unsigned errors = 0;
 
 	for (i = 0; i < 1; i++)
-		for (j = 0; j < 5; j++){
-			printf("OUT is %d. GOLD OUT IS %d\n ",out[i * out_words_adj + j],gold[i * out_words_adj + j] );
+		for (j = 0; j < 5; j++)
 			if (gold[i * out_words_adj + j] != out[i * out_words_adj + j])
 				errors++;
-		}
 
 	return errors;
 }
@@ -68,7 +65,7 @@ static void init_buf (token_t *in, token_t * gold)
 {
 	int i;
 	int j;
-/*
+
 	for (i = 0; i < 1; i++)
 		for (j = 0; j < input_v_size * input_size; j++)
 			in[i * in_words_adj + j] = (token_t) j;
@@ -76,24 +73,7 @@ static void init_buf (token_t *in, token_t * gold)
 	for (i = 0; i < 1; i++)
 		for (j = 0; j < 5; j++)
 			gold[i * out_words_adj + j] = (token_t) j;
-*/
-	#include "data.h"
-	printf("INPUT LEN IS %d\n", in[16383]) ;
-	/*
-	gold[0] = 1360898830;
-	gold[1] = 2497166986;
-	gold[2] = 999726678;
-	gold[3] = 82730304;
-	gold[4] = 1431995291;
-*//*
-	gold[0] = -1399952850;
-	gold[1] = 1983227773.;
-	gold[2] = 593847421.;
-	gold[3] = -954275403;
-	gold[4] = -999732414;
-	*/
 }
-
 
 
 int main(int argc, char * argv[])
@@ -192,36 +172,28 @@ int main(int argc, char * argv[])
 		init_buf(mem, gold);
 
 		// Pass common configuration parameters
-		printf("  IOWRITE SELEC_REG\n");
+
 		iowrite32(dev, SELECT_REG, ioread32(dev, DEVID_REG));
-		printf("  IOWRITE COHERENCE_REG\n");
 		iowrite32(dev, COHERENCE_REG, ACC_COH_NONE);
-		printf("  IOWRITE PT_ADDRESS_REG\n");
+
 #ifndef __sparc
 		iowrite32(dev, PT_ADDRESS_REG, (unsigned long long) ptable);
 #else
 		iowrite32(dev, PT_ADDRESS_REG, (unsigned) ptable);
 #endif
-		printf("  IOWRITE PT_NCHUNK_REG\n");
 		iowrite32(dev, PT_NCHUNK_REG, NCHUNK(mem_size));
-		printf("  IOWRITE PT_SHIFT_REG\n");
 		iowrite32(dev, PT_SHIFT_REG, CHUNK_SHIFT);
 
 		// Use the following if input and output data are not allocated at the default offsets
-		printf("  IOWRITE SRC_OFFSET_REG\n");
 		iowrite32(dev, SRC_OFFSET_REG, 0x0);
-		printf("  IOWRITE DST_OFFSET_REG\n");
 		iowrite32(dev, DST_OFFSET_REG, 0x0);
 
 		// Pass accelerator-specific configuration parameters
 		/* <<--regs-config-->> */
-		printf("  IOWRITE SHA_INPUT_SIZE_REG\n");
 		iowrite32(dev, SHA_INPUT_SIZE_REG, input_size);
-		printf("  IOWRITE SHA_INPUT_V_SIZE_REG\n");
 		iowrite32(dev, SHA_INPUT_V_SIZE_REG, input_v_size);
 
 		// Flush (customize coherence model here)
-		printf("  ESP_FLUSH ACC_COH_NONE\n");
 		esp_flush(ACC_COH_NONE);
 
 		// Start accelerators

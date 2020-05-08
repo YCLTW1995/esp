@@ -11,6 +11,7 @@
 
 #include "sha_directives.hpp"
 
+
 #define __round_mask(x, y) ((y)-1)
 #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
 /* <<--defines-->> */
@@ -49,6 +50,8 @@ public:
 
     // Store the output data
     void store_output();
+
+    uint32_t preprocess(unsigned char * input);
 
     void do_sha(uint32_t input_size,uint32_t input_v_size,
                 unsigned char *indata, 

@@ -25,7 +25,7 @@ static struct of_device_id sha_device_ids[] = {
 		.name = "SLD_SHA",
 	},
 	{
-		.name = "eb_18A",
+		.name = "eb_18a",
 	},
 	{
 		.compatible = "sld,sha",

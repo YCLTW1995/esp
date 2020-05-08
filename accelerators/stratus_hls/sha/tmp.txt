@@ -1,0 +1,2 @@
+Info: testbench: @310 ns BEGIN - sha
+Info: testbench: @82370 ns END - sha

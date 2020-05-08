@@ -11,17 +11,21 @@ static unsigned out_offset;
 static unsigned size;
 
 /* User-defined code */
+
+
 static int validate_buffer(token_t *out, token_t *gold)
 {
 	int i;
 	int j;
 	unsigned errors = 0;
 
+
 	for (i = 0; i < 1; i++)
-		for (j = 0; j < 5; j++)
+		for (j = 0; j < 5; j++){
+			printf("OUT is %d. GOLD OUT IS %d\n ",out[i * out_words_adj + j],gold[i * out_words_adj + j] );
 			if (gold[i * out_words_adj + j] != out[i * out_words_adj + j])
 				errors++;
-
+		}
 	return errors;
 }
 
@@ -31,7 +35,7 @@ static void init_buffer(token_t *in, token_t * gold)
 {
 	int i;
 	int j;
-
+/*
 	for (i = 0; i < 1; i++)
 		for (j = 0; j < input_v_size * input_size; j++)
 			in[i * in_words_adj + j] = (token_t) j;
@@ -39,6 +43,22 @@ static void init_buffer(token_t *in, token_t * gold)
 	for (i = 0; i < 1; i++)
 		for (j = 0; j < 5; j++)
 			gold[i * out_words_adj + j] = (token_t) j;
+*/
+	#include "data.h"
+	printf("Input length is %d\n", in[16383]);
+	/*
+	gold[0] = 1360898830;
+	gold[1] = 2497166986;
+	gold[2] = 999726678;
+	gold[3] = 82730304;
+	gold[4] = 1431995291;
+*//*
+	gold[0] = -1399952850;
+	gold[1] = 1983227773.;
+	gold[2] = 593847421.;
+	gold[3] = -954275403;
+	gold[4] = -999732414;
+	*/
 }
 
 

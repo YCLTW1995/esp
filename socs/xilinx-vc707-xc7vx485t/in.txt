@@ -1,0 +1,65 @@
+Coming up
+The material for the next ESP tutorial @ ASPLOS 2020 will be released soon!
+The ESP Vision
+ESP is an open-source research platform for heterogeneous system-on-chip design that combines a flexible tile-based architecture and a modular system-level design methodology.
+
+
+
+ESP provides three accelerator flows: RTL, high-level synthesis (HLS), machine learning frameworks. All three design flows converge to the ESP automated SoC integration flow that generates the necessary hardware and software interfaces to rapidly enable full-system prototyping on FPGA.
+
+Overview
+
+Architecture
+Tile-based architecture: processor, memory and accelerator tiles
+NoC-based
+Available processors
+32-bit Leon3 (Sparc)
+64-bit Ariane (RISC-V)
+Accelerators
+ESP accelerators
+Cadence Stratus HLS flow
+Xilinx Vivado HLS flow (NEW)
+Chisel flow
+Third-Party Accelerators (NEW):
+NVIDIA Deep Learning Accelerator (NVDLA)
+Design Flows
+Seamless accelerator design flows:
+RTL and Chisel
+HLS from C and SystemC
+Machine learning frameworks (e.g. TensorFlow) with hls4ml
+Mix & match floorplanning GUI
+Rapid FPGA prototyping
+Hardware and software support
+Linux SMP
+FPGA development boards
+Xilinx Virtex UltraScale+ FPGA VCU118
+Xilinx Virtex-7 FPGA VC707
+proFPGA quad Virtex7 Prototyping System
+proFPGA quad Virtex UltraScale Prototyping System
+For more information check out the documentation section!
+
+See here some of the supported projects, tools and languages:
+
+   
+
+  
+
+ 
+
+What’s new
+Support for proFPGA quad Virtex UltraScale Prototyping System, including up to 4 memory channels
+
+Integration of the NVIDIA Deep Learning Accelerator (NVDLA)
+
+Support for Ubuntu 18.04
+
+Support for Vivado HLS accelerators
+
+Coming soon
+Multi-processor support for the RISC-V Ariane cores
+
+Support for Digilent Genesys2 FPGA board
+
+Regression testing
+
+Automatic integration of accelerators generated with hls4ml from Keras/Tensorflow and Pytorch
